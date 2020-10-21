@@ -1,7 +1,7 @@
 <template lang="html">
 	<ul>
 		<character-select
-			v-for="(character, index) in characters.results"
+			v-for="(character, index) in characters"
 			:character="character"
 			:key="index"
 		></character-select>

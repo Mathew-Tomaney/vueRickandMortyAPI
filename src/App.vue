@@ -1,7 +1,7 @@
 <template lang="html">
 	<main>
 		<h1>Rick and Morty Characters</h1>
-    <input type="text" v-model="search">Search</input>
+    <input type="text" v-model="search" placeholder="search character"></input>
 		<div id="main-box">
 			<character-list :characters="characters"></character-list>
 			<character-detail :character="selectedCharacter"></character-detail>
@@ -42,7 +42,7 @@ export default {
 
 	computed: {
 		filteredList() {
-			return this.rawCharacters.results.filter((character) => {
+			this.characters = this.rawCharacters.results.filter((character) => {
 				return character.name
 					.toLowerCase()
 					.includes(this.search.toLowerCase());
