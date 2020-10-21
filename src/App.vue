@@ -1,6 +1,7 @@
 <template lang="html">
 	<main>
 		<h1>Rick and Morty Characters</h1>
+    <input type="text" v-model="search">Search</input>
 		<div id="main-box">
 			<character-list :characters="characters"></character-list>
 			<character-detail :character="selectedCharacter"></character-detail>
@@ -17,15 +18,17 @@ export default {
 	name: 'app',
 	data() {
 		return {
+      rawCharacters: [],
 			characters: [],
-			selectedCharacter: null
+			selectedCharacter: null,
+			search: ''
 		};
 	},
 
 	mounted() {
 		fetch('https://rickandmortyapi.com/api/character/')
 			.then((result) => result.json())
-			.then((characters) => (this.characters = characters));
+			.then((rawCharacters) => (this.rawCharacters = rawCharacters));
 
 		eventBus.$on('character-selected', (character) => {
 			this.selectedCharacter = character;
@@ -35,6 +38,16 @@ export default {
 	components: {
 		'character-list': CharacterList,
 		'character-detail': CharacterDetail
+	},
+
+	computed: {
+		filteredList() {
+			return this.rawCharacters.results.filter((character) => {
+				return character.name
+					.toLowerCase()
+					.includes(this.search.toLowerCase());
+			});
+		}
 	}
 };
 </script>
